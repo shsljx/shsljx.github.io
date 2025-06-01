@@ -135,17 +135,17 @@
                 <button type="submit" name="" class="btn">Google一下</button>
             </form>
             
-            <!-- 豆瓣搜书 - 修正部分 -->
-            <form class="search hidden" id="search_4" action="https://search.douban.com/book/subject_search" method="get" target="_blank">
-                <input type="text" name="search_text" class="s" placeholder="每天读书 豆瓣搜书">  <!-- 关键修正：name改为search_text -->
-                <button type="submit" name="" class="btn">豆瓣搜书</button>  <!-- 修正按钮文字 -->
-            </form>
+            <!-- 豆瓣搜书 -->
+<form class="search hidden" id="search_4" action="https://search.douban.com/book/subject_search" method="get" target="_blank">
+  <input type="text" name="search_text" class="s" placeholder="每天读书 豆瓣搜书">
+  <button type="submit" class="btn">豆瓣搜书</button>
+</form>
             
-            <!-- 谷歌翻译 - 修正部分 -->
+            <!-- 谷歌翻译-->
             <form class="search hidden" id="search_5" action="https://translate.google.com/" method="get" target="_blank">
                 <input type="hidden" name="hl" value="zh-CN">
                 <input type="hidden" name="op" value="translate">
-                <input type="text" name="text" class="s" placeholder="翻译一下 读懂英文">  <!-- 关键修正：name改为text -->
+                <input type="text" name="text" class="s" placeholder="翻译一下 读懂英文">  
                 <button type="submit" name="" class="btn">Translate一下</button>
             </form>
         </div>
