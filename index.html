@@ -50,52 +50,6 @@
       </nav>
 
 
-<!-- 时间♥ -->	
-<div class="submit fr">
-    <div id="time" class="a transition time-display"> 
-        <p id="logInfo"></p>
-        <script>
-            function getCurDate() {
-                var d = new Date();
-                var week;
-                switch (d.getDay()) {
-                    case 0: week = "星期日"; break;
-                    case 1: week = "星期一"; break;
-                    case 2: week = "星期二"; break;
-                    case 3: week = "星期三"; break;
-                    case 4: week = "星期四"; break;
-                    case 5: week = "星期五"; break;
-                    case 6: week = "星期六"; break;
-                }
-                var years = d.getFullYear();
-                var month = add_zero(d.getMonth() + 1);
-                var days = add_zero(d.getDate());
-                var hours = add_zero(d.getHours());
-                var minutes = add_zero(d.getMinutes());
-                var seconds = add_zero(d.getSeconds());
-                var ndate = month + "月" + days + "日 " + hours + ":" + minutes + ":" + seconds + " " + week;
-                var divT = document.getElementById("logInfo");
-                divT.innerHTML = ndate;
-            }
-
-            function add_zero(temp) {
-                return temp < 10 ? "0" + temp : temp.toString();
-            }
-
-            // 初始化时间显示
-            document.addEventListener('DOMContentLoaded', function() {
-                getCurDate();
-                setInterval(getCurDate, 1000);
-                
-                // 添加点击事件监听
-                document.getElementById('logInfo').addEventListener('click', function() {
-                    window.open('https://caiyunai.com/h5/', '_blank');
-                });
-            });
-        </script>
-    </div>
-</div>
-
 </header>
 
 
