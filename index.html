@@ -108,25 +108,50 @@
 <!--搜索框♥ -->	
   <div class="primary-menus">
     <ul class="selects">
-      <li>不懂就问</li>
-		<li class="current" data-target="search_1"><span>Baidu</span></li>
-		<li data-target="search_2"><span>秘塔搜索</span></li>
-                <li data-target="search_3"><span>Google</span></li>
-                <li data-target="search_4"><span>豆瓣搜书</span></li>
-                <li data-target="search_5"><span>Translate</span></li>
+        <li>不懂就问</li>
+        <li class="current" data-target="search_1"><span>Baidu</span></li>
+        <li data-target="search_2"><span>秘塔搜索</span></li>
+        <li data-target="search_3"><span>Google</span></li>
+        <li data-target="search_4"><span>豆瓣搜书</span></li>
+        <li data-target="search_5"><span>Translate</span></li>
     </ul>
     <div class="cont">
-      <div class="left-cont">
-<form class="search" id="search_1" action="https://www.baidu.com/baidu" method="get" target="_blank"><input type="text" name="wd" class="s" placeholder="百度一下 你就知道"><button type="submit" name="" class="btn">Bai 度一下</button></form>
-<form class="search hidden" id="search_2" action="https://metaso.cn/?q=%s" method="get" target="_blank"><input type="text" name="q" class="s" placeholder="AI一下 基本知道"><button type="submit" name="" class="btn">AI一下</button></form>
-<form class="search hidden" id="search_3" action="https://www.google.com/search" method="get" target="_blank"><input type="text" name="q" class="s" placeholder="谷歌一下 知道更多"><button type="submit" name="" class="btn">Google一下</button></form>
-<form class="search hidden" id="search_4" action="https://search.douban.com/book/subject_search?search_text=" method="get" target="_blank"><input type="text" name="q" class="s" placeholder="每天读书 豆瓣搜书"><button type="submit" name="" class="btn">Bing一下</button></form>
-<form class="search hidden" id="search_5" action="https://translate.google.com.hk/?hl=zh-CN&sourceid=cnhp{query}" method="get" target="_blank"><input type="text" name="q" class="s" placeholder="翻译一下 读懂英文"><button type="submit" name="" class="btn">Translate一下</button></form>
-
-
-      </div>
+        <div class="left-cont">
+            <!-- 百度 -->
+            <form class="search" id="search_1" action="https://www.baidu.com/baidu" method="get" target="_blank">
+                <input type="text" name="wd" class="s" placeholder="百度一下 你就知道">
+                <button type="submit" name="" class="btn">Bai 度一下</button>
+            </form>
+            
+            <!-- 秘塔搜索 -->
+            <form class="search hidden" id="search_2" action="https://metaso.cn/" method="get" target="_blank">
+                <input type="text" name="q" class="s" placeholder="AI一下 基本知道">
+                <button type="submit" name="" class="btn">AI一下</button>
+            </form>
+            
+            <!-- Google -->
+            <form class="search hidden" id="search_3" action="https://www.google.com/search" method="get" target="_blank">
+                <input type="text" name="q" class="s" placeholder="谷歌一下 知道更多">
+                <button type="submit" name="" class="btn">Google一下</button>
+            </form>
+            
+            <!-- 豆瓣搜书 - 修正部分 -->
+            <form class="search hidden" id="search_4" action="https://search.douban.com/book/subject_search" method="get" target="_blank">
+                <input type="text" name="search_text" class="s" placeholder="每天读书 豆瓣搜书">  <!-- 关键修正：name改为search_text -->
+                <button type="submit" name="" class="btn">豆瓣搜书</button>  <!-- 修正按钮文字 -->
+            </form>
+            
+            <!-- 谷歌翻译 - 修正部分 -->
+            <form class="search hidden" id="search_5" action="https://translate.google.com/" method="get" target="_blank">
+                <input type="hidden" name="hl" value="zh-CN">
+                <input type="hidden" name="op" value="translate">
+                <input type="text" name="text" class="s" placeholder="翻译一下 读懂英文">  <!-- 关键修正：name改为text -->
+                <button type="submit" name="" class="btn">Translate一下</button>
+            </form>
+        </div>
     </div>
-  </div>
+</div>
+
 
   <div class="banner-wrap scenes-ready">
     <div id="stage">
