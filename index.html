@@ -13,7 +13,7 @@
     <meta name="author" content="order by ">
     <link rel="stylesheet" href="style/css/font-awesome.min.css" type="text/css">
     <link rel="stylesheet" href="style/css/style.css" type="text/css">
-    <!--[if lt IE 9]><div class="fuck-ie"><p class="tips">*您的IE浏览器版本过低，为获得更好的体验请使用Chrome、Firefox浏览器!</p></div><![endif]-->
+    <!--[if lt IE 9]><div class="ie-warning"><p class="tips">*您的IE浏览器版本过低，为获得更好的体验请使用Chrome、Firefox浏览器!</p></div><![endif]-->
     <script src="style/js/jquery-2.2.4.min.js" type="text/javascript"></script>
     <link rel="icon" type="image/x-icon" href="uploads/xue.ico">
 </head>
@@ -22,7 +22,7 @@
         <div class="h-fix">
             <div class="container">
                 <h1 class="logo"> 
-                    <a href="" title=""> 
+                    <a href="#" title="首页"> 
                         <img id="light-logo" src="style/images/logo1.gif" alt="网站logo" title="开心每一天！"> 
                         <img id="dark-logo" src="style/images/logo2.png" alt="网站logo" title="注意休息哦！"> 
                     </a> 
@@ -30,16 +30,16 @@
                 
                 <!-- 日间夜间模式♥ -->    
                 <div class="darkmode"> 
-                    <a href="javascript:switchNightMode()" target="_self"><i class="fa fa-moon-o"></i></a> 
+                    <a href="javascript:switchNightMode()" title="切换夜间模式"><i class="fa fa-moon-o"></i></a> 
                 </div>
                 
                 <!-- 导航栏♥ -->    
                 <nav class="nav-bar" id="nav-box" data-type="index" data-infoid="">
                     <ul class="nav">
-                        <li id="nvabar-item-index"><a href="">首页</a></li>
+                        <li id="nvabar-item-index"><a href="#">首页</a></li>
                         <li id="navbar-category-top" class="li-cate-3"><a href="https://tophub.today" target="_blank">今日热榜</a></li>
                         <li id="navbar-category-xiaomi" class="li-cate-3"><a href="https://tool.aoaostar.com/mimotion" target="_blank">小米刷步数</a></li>
-                        <li id="navbar-category-greasyfork" class="li-cate-3"><a href="https://greasyfork.org/zh-CN" target="_blank">Greasy Fork</a></li>  
+                        <li id="navbar-category-greasyfork" class="li-cate-3"><a href="https://greasyfork.org/zh-CN" target="_blank">Greasy Fork</a></li>  
                         <li id="navbar-category-iyf" class="li-cate-3"><a href="https://www.iyf.tv" target="_blank">爱壹帆</a></li>
                         <li id="navbar-category-version" class="li-cate-3"><a href="#">版本时间</a>
                             <ul class="sub-menu">
@@ -65,21 +65,21 @@
                                     case 5: week = "星期五"; break;
                                     case 6: week = "星期六"; break;
                                 }
-                                var month = add_zero(d.getMonth() + 1);
-                                var days = add_zero(d.getDate());
-                                var hours = add_zero(d.getHours());
-                                var minutes = add_zero(d.getMinutes());
-                                var seconds = add_zero(d.getSeconds());
+                                var month = addZero(d.getMonth() + 1);
+                                var days = addZero(d.getDate());
+                                var hours = addZero(d.getHours());
+                                var minutes = addZero(d.getMinutes());
+                                var seconds = addZero(d.getSeconds());
                                 var ndate = month + "月" + days + "日 " + hours + ":" + minutes + ":" + seconds + " " + week;
                                 var divT = document.getElementById("logInfo");
                                 divT.innerHTML = ndate;
                             }
 
-                            function add_zero(temp) {
-                                return temp < 10 ? "0" + temp : temp.toString();
+                            function addZero(temp) {
+                                return temp < 10 ? "0" + temp : "" + temp;
                             }
 
-                            document.addEventListener('DOMContentLoaded', function() {  
+                            document.addEventListener('DOMContentLoaded', function() {  
                                 getCurDate();
                                 setInterval(getCurDate, 1000);
                                 document.getElementById('logInfo').addEventListener('click', function() {
@@ -111,7 +111,7 @@
                 <li data-target="search_6"><span>Translate</span></li>
             </ul>
             <div class="cont">
-                <div class="left-cont">  
+                <div class="left-cont">  
                     <!-- 百度 -->
                     <form class="search" id="search_1" action="https://www.baidu.com/baidu" method="get" target="_blank">
                         <input type="text" name="wd" class="s" placeholder="百度一下 你就知道" autocomplete="off">
@@ -155,26 +155,27 @@
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 // 清除输入框内容
-                document.querySelectorAll('.search input[type="text"]').forEach(input => {  
+                document.querySelectorAll('.search input[type="text"]').forEach(input => {  
                     input.value = '';
                 });
                 
-                // 搜索框切换功能
-                document.querySelectorAll('.primary-menus .selects li').forEach(li => {
-                    li.addEventListener('click', function() {
+                // 搜索框切换功能优化
+                const searchTabs = document.querySelectorAll('.primary-menus .selects li');
+                const searchForms = document.querySelectorAll('.search');
+                
+                searchTabs.forEach(tab => {
+                    tab.addEventListener('click', function() {
                         // 移除所有当前选中状态
-                        document.querySelectorAll('.primary-menus .selects li').forEach(el => {
-                            el.classList.remove('current');
-                        });
+                        searchTabs.forEach(t => t.classList.remove('current'));
                         // 添加当前选中状态
                         this.classList.add('current');
+                        
+                        // 隐藏所有搜索表单
+                        searchForms.forEach(form => form.classList.add('hidden'));
                         
                         // 显示对应的搜索框
                         const target = this.getAttribute('data-target');
                         if (target) {
-                            document.querySelectorAll('.search').forEach(form => {
-                                form.classList.add('hidden');
-                            });
                             document.getElementById(target).classList.remove('hidden');
                         }
                     });
@@ -204,12 +205,11 @@
             
                 <!--第一个♥  -->
                 <div class="part" id="resource-section" data-title="资源">
-                    <p class="tt sticky"> <strong>常用网址</strong> <a title="" href="#">科技+</a> </p>
+                    <p class="tt sticky"> <strong>常用网址</strong> <a title="科技相关资源" href="#">科技+</a> </p>
                     <div class="items">
                         <div class="row">
                             <div class="col-xs-6 col-sm-4 col-md-3">
                                 <div class="item"> 
-                                    <a class="link" target="_self" href="javascript:;" rel="nofollow"></a> 
                                     <a class="a" href="https://chat.deepseek.com" target="_blank" title="DeepSeek - 探索未至之境"> 
                                         <img src="uploads/ds.jpg" alt="DeepSeek图标" title="DeepSeek">
                                         <h3>Deepseek</h3>
@@ -220,8 +220,7 @@
 
                             <div class="col-xs-6 col-sm-4 col-md-3">
                                 <div class="item"> 
-                                    <a class="link" target="_self" href="javascript:;" rel="nofollow"></a> 
-                                    <a class="a" href="https://chatgpt.com" title="" target="_blank"> 
+                                    <a class="a" href="https://chatgpt.com" title="OpenAI的AI助手" target="_blank"> 
                                         <img src="uploads/chatgpt.ico" alt="ChatGPT图标" title="ChatGPT">
                                         <h3>ChatGPT</h3>
                                         <p>多模态全能AI助手。</p>
@@ -231,8 +230,7 @@
 
                             <div class="col-xs-6 col-sm-4 col-md-3">
                                 <div class="item"> 
-                                    <a class="link" target="_self" href="javascript:;" rel="nofollow"></a>   
-                                    <a class="a" target="_blank" href="https://www.doubao.com/chat/" title=""> 
+                                    <a class="a" target="_blank" href="https://www.doubao.com/chat/" title="字节跳动AI助手"> 
                                         <img src="uploads/db.png" alt="豆包图标" title="豆包">
                                         <h3>豆包</h3>
                                         <p>字节跳动旗下 AI 智能助手。</p>
@@ -242,19 +240,17 @@
                             
                             <div class="col-xs-6 col-sm-4 col-md-3">
                                 <div class="item"> 
-                                    <a class="link" target="_self" href="javascript:;" rel="nofollow"></a> 
-                                    <a class="a" target="_blank" href="https://miaosou.fun/" title=""> 
+                                    <a class="a" target="_blank" href="https://miaosou.fun/" title="网盘搜索引擎"> 
                                         <img src="uploads/ms.ico" alt="秒搜网盘图标" title="秒搜网盘">
                                         <h3>秒搜网盘</h3>
                                         <p>免费强大的网盘的搜索引擎。</p>
-                                    </a>   
+                                    </a> 
                                 </div>
                             </div>
                             
                             <div class="col-xs-6 col-sm-4 col-md-3">
                                 <div class="item"> 
-                                    <a class="link" target="_self" href="javascript:;" rel="nofollow"></a> 
-                                    <a class="a" href="https://mail.qq.com/" title="" target="_blank"> 
+                                    <a class="a" href="https://mail.qq.com/" title="腾讯QQ邮箱" target="_blank"> 
                                         <img src="uploads/qq.png" alt="QQ邮箱图标" title="QQ邮箱">
                                         <h3>QQ邮箱</h3>
                                         <p>QQ邮箱,为亿万用户提供高效稳定便捷的电子邮件服务。</p>
@@ -264,8 +260,7 @@
 
                             <div class="col-xs-6 col-sm-4 col-md-3">
                                 <div class="item"> 
-                                    <a class="link" target="_self" href="javascript:;" rel="nofollow"></a> 
-                                    <a class="a" href="https://mp.weixin.qq.com" title="" target="_blank"> 
+                                    <a class="a" href="https://mp.weixin.qq.com" title="微信公众平台" target="_blank"> 
                                         <img src="uploads/wxgz.jpg" alt="微信公众平台图标" title="微信公众平台">
                                         <h3>微信公众平台</h3>
                                         <p>给个人、企业和组织提供业务服务与用户管理能力的全新服务平台。</p>
@@ -275,8 +270,7 @@
 
                             <div class="col-xs-6 col-sm-4 col-md-3">
                                 <div class="item"> 
-                                    <a class="link" target="_self" href="javascript:;" rel="nofollow"></a> 
-                                    <a class="a" href="https://www.canva.cn" title="" target="_blank"> 
+                                    <a class="a" href="https://www.canva.cn" title="在线设计平台" target="_blank"> 
                                         <img src="uploads/kh.png" alt="可画图标" title="可画">
                                         <h3>可画</h3>
                                         <p>在线设计协作平台Canva提供了海量的设计模板。</p>
@@ -286,8 +280,7 @@
 
                             <div class="col-xs-6 col-sm-4 col-md-3">
                                 <div class="item"> 
-                                    <a class="link" target="_self" href="javascript:;" rel="nofollow"></a> 
-                                    <a class="a" href="https://www.gaoding.com" title="" target="_blank"> 
+                                    <a class="a" href="https://www.gaoding.com" title="在线设计平台" target="_blank"> 
                                         <img src="uploads/gd.png" alt="稿定图标" title="稿定">
                                         <h3>稿定</h3>
                                         <p>让更多人和企业轻松掌控设计，创造价值。</p>
@@ -300,13 +293,12 @@
 
                 <!--第二个 ♥ -->
                 <div class="part" id="tool-section" data-title="">
-                    <p class="tt sticky"> <strong>常用工具</strong> <a title="" href="#">工具+</a> </p>
+                    <p class="tt sticky"> <strong>常用工具</strong> <a title="工具相关资源" href="#">工具+</a> </p>
                     <div class="items">
                         <div class="row">
                             <div class="col-xs-6 col-sm-4 col-md-3">
                                 <div class="item"> 
-                                    <a class="link" target="_self" href="javascript:;" rel="nofollow"></a> 
-                                    <a class="a" href="https://cli.im" title="" target="_blank"> 
+                                    <a class="a" href="https://cli.im" title="二维码生成工具" target="_blank"> 
                                         <img src="uploads/cl.png" alt="草料二维码图标" title="草料二维码">
                                         <h3>草料二维码</h3>
                                         <p>一站式二维码生成工具,可搭建二维码信息系统。</p>
@@ -316,8 +308,7 @@
 
                             <div class="col-xs-6 col-sm-4 col-md-3">
                                 <div class="item"> 
-                                    <a class="link" target="_self" href="javascript:;" rel="nofollow"></a> 
-                                    <a class="a" href="https://v.qq.com/channel/cartoon" title="" target="_blank"> 
+                                    <a class="a" href="https://v.qq.com/channel/cartoon" title="腾讯视频" target="_blank"> 
                                         <img src="uploads/tx.png" alt="腾讯视频图标" title="腾讯视频">
                                         <h3>腾讯视频</h3>
                                         <p>腾讯视频致力于打造中国领先的在线视频媒体平台。</p>
@@ -327,8 +318,7 @@
 
                             <div class="col-xs-6 col-sm-4 col-md-3">
                                 <div class="item"> 
-                                    <a class="link" target="_self" href="javascript:;" rel="nofollow"></a> 
-                                    <a class="a" href="https://www.51zxw.net" title="" target="_blank"> 
+                                    <a class="a" href="https://www.51zxw.net" title="自学平台" target="_blank"> 
                                         <img src="uploads/zx.png" alt="我要自学网图标" title="我要自学网">
                                         <h3>我要自学网</h3>
                                         <p>由来自培训职业老师创立的视频教学网,享受一站式的软件学习体验。</p>
@@ -338,8 +328,7 @@
 
                             <div class="col-xs-6 col-sm-4 col-md-3">
                                 <div class="item"> 
-                                    <a class="link" target="_self" href="javascript:;" rel="nofollow"></a> 
-                                    <a class="a" href="https://xiumi.us/" title="" target="_blank"> 
+                                    <a class="a" href="https://xiumi.us/" title="微信排版工具" target="_blank"> 
                                         <img src="uploads/xm.png" alt="秀米图标" title="秀米">
                                         <h3>秀米</h3>
                                         <p>一款专业强大的微信公众平台在线编辑排版工具。</p>
@@ -349,8 +338,7 @@
 
                             <div class="col-xs-6 col-sm-4 col-md-3">
                                 <div class="item"> 
-                                    <a class="link" target="_self" href="javascript:;" rel="nofollow"></a> 
-                                    <a class="a" href="https://bushux.cc/" title="" target="_blank"> 
+                                    <a class="a" href="https://bushux.cc/" title="小米刷步数工具" target="_blank"> 
                                         <img src="uploads/bs2.png" alt="小米刷步数图标" title="小米刷步数">
                                         <h3>小米刷步数</h3>
                                         <p>通过小米运动API实现的自动刷运动步数工具，可同步到微信、支付宝。</p>
@@ -360,8 +348,7 @@
                             
                             <div class="col-xs-6 col-sm-4 col-md-3">
                                 <div class="item"> 
-                                    <a class="link" target="_self" href="javascript:;" rel="nofollow"></a> 
-                                    <a class="a" href="https://sticker.weixin.qq.com/cgi-bin/mmemoticonwebnode-bin/pages/home" title="" target="_blank"> 
+                                    <a class="a" href="https://sticker.weixin.qq.com/cgi-bin/mmemoticonwebnode-bin/pages/home" title="微信表情平台" target="_blank"> 
                                         <img src="uploads/wxgz.jpg" alt="微信表情开放平台图标" title="微信表情开放平台">
                                         <h3>微信表情开放平台</h3>
                                         <p>微信表情，亿万人都在看。</p>
@@ -374,13 +361,12 @@
 
                 <!--第三个♥  -->
                 <div class="part" id="software-section" data-title="">
-                    <p class="tt sticky"> <strong>软件资讯</strong> <a title="" href="#">软件+</a> </p>
+                    <p class="tt sticky"> <strong>软件资讯</strong> <a title="软件相关资源" href="#">软件+</a> </p>
                     <div class="items">
                         <div class="row">
                             <div class="col-xs-6 col-sm-4 col-md-3">
                                 <div class="item"> 
-                                    <a class="link" target="_self" href="javascript:;" rel="nofollow"></a> 
-                                    <a class="a" href="https://linux.do" title="" target="_blank"> 
+                                    <a class="a" href="https://linux.do" title="Linux社区" target="_blank"> 
                                         <img src="uploads/linux.webp" alt="LINUX DO图标" title="LINUX DO">
                                         <h3>LINUX DO</h3>
                                         <p>新的理想型社区。</p>
@@ -390,8 +376,7 @@
 
                             <div class="col-xs-6 col-sm-4 col-md-3">
                                 <div class="item"> 
-                                    <a class="link" target="_self" href="javascript:;" rel="nofollow"></a> 
-                                    <a class="a" href="https://www.v2ex.com/" title="" target="_blank"> 
+                                    <a class="a" href="https://www.v2ex.com/" title="开发者社区" target="_blank"> 
                                         <img src="uploads/V2.png" alt="v2EX图标" title="v2EX">
                                         <h3>v2EX</h3>
                                         <p>面向程序员、极客人群的分享交流社区。</p>
@@ -401,8 +386,7 @@
                             
                             <div class="col-xs-6 col-sm-4 col-md-3">
                                 <div class="item"> 
-                                    <a class="link" target="_self" href="javascript:;" rel="nofollow"></a> 
-                                    <a class="a" href="https://search.chongbuluo.com" title="" target="_blank"> 
+                                    <a class="a" href="https://search.chongbuluo.com" title="聚合搜索" target="_blank"> 
                                         <img src="uploads/cbl.png" alt="虫部落快搜图标" title="虫部落快搜">
                                         <h3>虫部落快搜</h3>
                                         <p>聚合国内外综合搜索、垂直搜索和 AI搜索。精准搜索,便捷交互!</p>
@@ -412,8 +396,7 @@
 
                             <div class="col-xs-6 col-sm-4 col-md-3">
                                 <div class="item"> 
-                                    <a class="link" target="_self" href="javascript:;" rel="nofollow"></a> 
-                                    <a class="a" href="https://www.52pojie.cn" title="" target="_blank"> 
+                                    <a class="a" href="https://www.52pojie.cn" title="软件破解社区" target="_blank"> 
                                         <img src="uploads/wapj.png" alt="吾爱破解图标" title="吾爱破解">
                                         <h3>吾爱破解</h3>
                                         <p>论坛聚焦软件安全、编程开发等技术领域,打造技术爱好者交流平台。</p>
@@ -423,8 +406,7 @@
 
                             <div class="col-xs-6 col-sm-4 col-md-3">
                                 <div class="item"> 
-                                    <a class="link" target="_self" href="javascript:;" rel="nofollow"></a> 
-                                    <a class="a" href="https://bbs.pcbeta.com/forum-521-1.html" title="" target="_blank"> 
+                                    <a class="a" href="https://bbs.pcbeta.com/forum-521-1.html" title="Windows技术社区" target="_blank"> 
                                         <img src="uploads/yj.png" alt="远景资源区图标" title="远景资源区">
                                         <h3>远景资源区</h3>
                                         <p>前沿科技与智慧生态的极客社区。</p>
@@ -434,8 +416,7 @@
 
                             <div class="col-xs-6 col-sm-4 col-md-3">
                                 <div class="item"> 
-                                    <a class="link" target="_self" href="javascript:;" rel="nofollow"></a> 
-                                    <a class="a" href="https://www.appinn.com" title="" target="_blank"> 
+                                    <a class="a" href="https://www.appinn.com" title="小众软件推荐" target="_blank"> 
                                         <img src="uploads/xzrj.png" alt="小众软件图标" title="小众软件">
                                         <h3>小众软件</h3>
                                         <p>分享小众有趣的软件，软件爱好者的必备网站。</p>
@@ -445,8 +426,7 @@
 
                             <div class="col-xs-6 col-sm-4 col-md-3">
                                 <div class="item"> 
-                                    <a class="link" target="_self" href="javascript:;" rel="nofollow"></a> 
-                                    <a class="a" href="https://sspai.com" title="" target="_blank"> 
+                                    <a class="a" href="https://sspai.com" title="数字生活社区" target="_blank"> 
                                         <img src="uploads/ssp.png" alt="少数派图标" title="少数派">
                                         <h3>少数派</h3>
                                         <p>高效工作,品质生活 少数派致力于数字产品的筛选与挖掘。</p>
@@ -456,8 +436,7 @@
                             
                             <div class="col-xs-6 col-sm-4 col-md-3">
                                 <div class="item"> 
-                                    <a class="link" target="_self" href="javascript:;" rel="nofollow"></a> 
-                                    <a class="a" href="https://www.isharepc.com" title="" target="_blank"> 
+                                    <a class="a" href="https://www.isharepc.com" title="软件资源分享" target="_blank"> 
                                         <img src="uploads/lrbk.png" alt="乐软博客图标" title="乐软博客">
                                         <h3>乐软博客</h3>
                                         <p>致力于搜集与分享各种软件资源。</p>
@@ -470,13 +449,12 @@
 
                 <!--第四个♥ -->
                 <div class="part" id="charity-section" data-title="">
-                    <p class="tt sticky"> <strong>公益慈善</strong> <a title="" href="#">爱心+</a> </p>
+                    <p class="tt sticky"> <strong>公益慈善</strong> <a title="公益相关资源" href="#">爱心+</a> </p>
                     <div class="items">
                         <div class="row">
                             <div class="col-xs-6 col-sm-4 col-md-3">
                                 <div class="item"> 
-                                    <a class="link" target="_self" href="javascript:;" rel="nofollow"></a> 
-                                    <a class="a" href="https://www.kdocs.cn/l/ca6zfETArLKx" title="" target="_blank"> 
+                                    <a class="a" href="https://www.kdocs.cn/l/ca6zfETArLKx" title="社工资源整合" target="_blank"> 
                                         <img src="uploads/zyzh.png" alt="资源整合图标" title="资源整合">
                                         <h3>资源整合</h3>
                                         <p>一个面向社工行业资源整合汇总的信息发布平台。</p>
@@ -486,8 +464,7 @@
 
                             <div class="col-xs-6 col-sm-4 col-md-3">
                                 <div class="item"> 
-                                    <a class="link" target="_self" href="javascript:;" rel="nofollow"></a> 
-                                    <a class="a" target="_blank" href="https://www.cnki.net/" title=""> 
+                                    <a class="a" target="_blank" href="https://www.cnki.net/" title="中国知网"> 
                                         <img src="uploads/zw.png" alt="知网图标" title="知网">
                                         <h3>知网</h3>
                                         <p>行业知识创新、学习和应用的交流合作平台。</p>
@@ -497,8 +474,7 @@
                             
                             <div class="col-xs-6 col-sm-4 col-md-3">
                                 <div class="item"> 
-                                    <a class="link" target="_self" href="javascript:;" rel="nofollow"></a> 
-                                    <a class="a" href="https://www.kdocs.cn/view/l/cdRVmpmvTBaH" title="" target="_blank"> 
+                                    <a class="a" href="https://www.kdocs.cn/view/l/cdRVmpmvTBaH" title="社工经验分享" target="_blank"> 
                                         <img src="uploads/shjy.jpg" alt="社工经验图标" title="社工经验">
                                         <h3>社工经验</h3>
                                         <p>整合全网社工服务经验，梳理一线服务心得。</p>
@@ -508,8 +484,7 @@
 
                             <div class="col-xs-6 col-sm-4 col-md-3">
                                 <div class="item"> 
-                                    <a class="link" target="_self" href="javascript:;" rel="nofollow"></a> 
-                                    <a class="a" href="https://shgz.mca.gov.cn" title="" target="_blank"> 
+                                    <a class="a" href="https://shgz.mca.gov.cn" title="中国社会工作网" target="_blank"> 
                                         <img src="uploads/sh.jpeg" alt="中国社会工作网图标" title="中国社会工作网">
                                         <h3>中国社会工作网</h3>
                                         <p>中华人民共和国民政部指定官方网站，集社工登记、继续教育等功能。</p>
@@ -519,8 +494,7 @@
 
                             <div class="col-xs-6 col-sm-4 col-md-3">
                                 <div class="item"> 
-                                    <a class="link" target="_self" href="javascript:;" rel="nofollow"></a> 
-                                    <a class="a" href="https://chinanpo.mca.gov.cn" title="" target="_blank"> 
+                                    <a class="a" href="https://chinanpo.mca.gov.cn" title="社会组织政务服务" target="_blank"> 
                                         <img src="uploads/shzw.png" alt="社会组织政务服务图标" title="社会组织政务服务">
                                         <h3>社会组织政务服务</h3>
                                         <p>全国社会组织信用信息公示平台。</p>
@@ -530,8 +504,7 @@
                             
                             <div class="col-xs-6 col-sm-4 col-md-3">
                                 <div class="item"> 
-                                    <a class="link" target="_self" href="javascript:;" rel="nofollow"></a> 
-                                    <a class="a" href="https://tg.shehuiwang.cn/swtg/login.action" title="" target="_blank"> 
+                                    <a class="a" href="https://tg.shehuiwang.cn/swtg/login.action" title="社工投稿平台" target="_blank"> 
                                         <img src="uploads/sgtg.png" alt="社工投稿图标" title="社工投稿">
                                         <h3>社工投稿</h3>
                                         <p>中国社会报社投稿平台。</p>
@@ -541,8 +514,7 @@
                             
                             <div class="col-xs-6 col-sm-4 col-md-3">
                                 <div class="item"> 
-                                    <a class="link" target="_self" href="javascript:;" rel="nofollow"></a> 
-                                    <a class="a" href="https://cszg.mca.gov.cn" title="" target="_blank"> 
+                                    <a class="a" href="https://cszg.mca.gov.cn" title="慈善中国" target="_blank"> 
                                         <img src="uploads/cszg.jpeg" alt="慈善中国图标" title="慈善中国">
                                         <h3>慈善中国</h3>
                                         <p>全国慈善信息公开平台。</p>
@@ -552,8 +524,7 @@
 
                             <div class="col-xs-6 col-sm-4 col-md-3">
                                 <div class="item"> 
-                                    <a class="link" target="_self" href="javascript:;" rel="nofollow"></a> 
-                                    <a class="a" href="https://yanglao.mca.gov.cn" title="" target="_blank"> 
+                                    <a class="a" href="https://yanglao.mca.gov.cn" title="全国养老服务信息平台" target="_blank"> 
                                         <img src="uploads/ylcs.png" alt="全国养老服务信息平台图标" title="全国养老服务信息平台">
                                         <h3>全国养老服务信息平台</h3>
                                         <p>提供养老政策资讯、服务查询、在线办理、养老地图、养老人才服务。</p>
@@ -566,13 +537,12 @@
 
                 <!--第五个♥ -->
                 <div class="part" id="office-section" data-title="">
-                    <p class="tt sticky"> <strong>办公软件</strong> <a title="" href="qiye/index.html">效率+</a> </p>
+                    <p class="tt sticky"> <strong>办公软件</strong> <a title="办公效率资源" href="qiye/index.html">效率+</a> </p>
                     <div class="items">
                         <div class="row">
                             <div class="col-xs-6 col-sm-4 col-md-3">
                                 <div class="item"> 
-                                    <a class="link" target="_self" href="javascript:;" rel="nofollow"></a> 
-                                    <a class="a" href="https://xiezuocat.com" title="" target="_blank"> 
+                                    <a class="a" href="https://xiezuocat.com" title="AI写作工具" target="_blank"> 
                                         <img src="uploads/mt.jpg" alt="秘塔写作猫图标" title="秘塔写作猫">
                                         <h3>秘塔写作猫</h3>
                                         <p>上海秘塔网络科技有限公司产品,提供错别字检查、AI写作服务。</p>
@@ -582,8 +552,7 @@
 
                             <div class="col-xs-6 col-sm-4 col-md-3">
                                 <div class="item"> 
-                                    <a class="link" target="_self" href="javascript:;" rel="nofollow"></a> 
-                                    <a class="a" href="https://www.wjx.cn" title="" target="_blank"> 
+                                    <a class="a" href="https://www.wjx.cn" title="问卷调查工具" target="_blank"> 
                                         <img src="uploads/wjx.png" alt="问卷星图标" title="问卷星">
                                         <h3>问卷星</h3>
                                         <p>问卷调查、考试、评估、表单、测评和投票的数据收集分析管理平台。</p>
@@ -593,8 +562,7 @@
 
                             <div class="col-xs-6 col-sm-4 col-md-3">
                                 <div class="item"> 
-                                    <a class="link" target="_self" href="javascript:;" rel="nofollow"></a> 
-                                    <a class="a" href="https://www.jinshuju.net" title="" target="_blank"> 
+                                    <a class="a" href="https://www.jinshuju.net" title="数据收集工具" target="_blank"> 
                                         <img src="uploads/jsj.png" alt="金数据图标" title="金数据">
                                         <h3>金数据</h3>
                                         <p>人人可用的数据平台。</p>
@@ -604,8 +572,7 @@
 
                             <div class="col-xs-6 col-sm-4 col-md-3">
                                 <div class="item"> 
-                                    <a class="link" target="_self" href="javascript:;" rel="nofollow"></a> 
-                                    <a class="a" href="https://www.wenshushu.cn" title="" target="_blank"> 
+                                    <a class="a" href="https://www.wenshushu.cn" title="文件传输工具" target="_blank"> 
                                         <img src="uploads/wss.png" alt="文叔叔图标" title="文叔叔">
                                         <h3>文叔叔</h3>
                                         <p>一款可以将任意文件，简单、安全、极速传给你朋友的工具。</p>
@@ -618,13 +585,12 @@
 
                 <!--第六个♥ -->
                 <div class="part" id="book-section" data-title="">
-                    <p class="tt sticky"> <strong>图书下载</strong> <a title="" href="qiye/index.html">读书+</a> </p>
+                    <p class="tt sticky"> <strong>图书下载</strong> <a title="图书资源" href="qiye/index.html">读书+</a> </p>
                     <div class="items">
                         <div class="row">
                             <div class="col-xs-6 col-sm-4 col-md-3">
                                 <div class="item"> 
-                                    <a class="link" target="_self" href="javascript:;" rel="nofollow"></a> 
-                                    <a class="a" href="https://z-lib.life" title="" target="_blank"> 
+                                    <a class="a" href="https://z-lib.life" title="免费电子图书馆" target="_blank"> 
                                         <img src="uploads/library.png" alt="Z-Library图标" title="Z-Library">
                                         <h3>Z-Library</h3>
                                         <p>全球最大的免费的电子图书馆。</p>
@@ -634,8 +600,7 @@
 
                             <div class="col-xs-6 col-sm-4 col-md-3">
                                 <div class="item"> 
-                                    <a class="link" target="_self" href="javascript:;" rel="nofollow"></a> 
-                                    <a class="a" href="https://zh.annas-archive.org" title="" target="_blank"> 
+                                    <a class="a" href="https://zh.annas-archive.org" title="电子资源存档" target="_blank"> 
                                         <img src="uploads/anna.jpg" alt="安娜档案馆图标" title="安娜档案馆">
                                         <h3>安娜档案馆</h3>
                                         <p>整合Z-Library、Library Genesis等资源，提供海量书籍和论文获取。</p>
@@ -644,46 +609,47 @@
                             </div>
                         </div>
                     </div>
-                </div>  
+                </div>  
             </div>
         </div>
 
 <div class="f-link part">
     <p class="tt"><strong>低频工具</strong></p>
     <ul id="flink" class="container">
-        <div class="link-group">  
-            <li class="group-title" style="color:#ffcccc;font-weight:bold;clear:both;">图片设计</li>   
-            <li><a href="https://www.51yuansu.com" target="_blank">觅元素</a></li>  
+        <div class="link-group">
+            <li class="group-title" style="color:#ffcccc;font-weight:bold;clear:both;">图片设计</li>  
+            <li><a href="https://www.51yuansu.com" target="_blank">觅元素</a></li>
             <li><a href="https://www.51miz.com" target="_blank">觅知网</a></li>
-            <li><a href="https://ibaotu.com" target="_blank">包图网</a></li>  
+            <li><a href="https://ibaotu.com" target="_blank">包图网</a></li>
+            <li><a href="https://www.chuangkit.com" target="_blank">创客贴</a></li>
             <li> | </li>
-            <li><a href="https://www.processon.com/diagrams" target="_blank">Process On</a></li>  
+            <li><a href="https://www.processon.com/diagrams" target="_blank">Process On</a></li>  
             <li><a href="https://www.fontke.com" target="_blank">字客网</a></li>
-            <li><a href="http://www.iconfont.cn" target="_blank">矢量图标</a></li>  
-            <li><a href="https://v.sucai8.cn" target="_blank">前端素材8网</a></li>  
-            <li><a href="https://datav.aliyun.com/portal/school/atlas/area_selector" target="_blank">阿里DataV地图下载</a></li>  
+            <li><a href="http://www.iconfont.cn" target="_blank">矢量图标</a></li>
+            <li><a href="https://v.sucai8.cn" target="_blank">前端素材8网</a></li>  
+            <li><a href="https://datav.aliyun.com/portal/school/atlas/area_selector" target="_blank">阿里DataV地图下载</a></li>
             <li> | </li>
             <li><a href="http://www.51pptmoban.com/" target="_blank">51PPT</a></li>
             <li><a href="http://www.ypppt.com/" target="_blank">优品PPT</a></li>
-            <li><a href="http://www.1ppt.com/" target="_blank">第一PPT</a></li>  
+            <li><a href="http://www.1ppt.com/" target="_blank">第一PPT</a></li>  
         </div>
-<br>  
+<br>  
         <div class="link-group">
-            <li class="group-title" style="color:#ffcccc;font-weight:bold;clear:both;">人工智能</li> 
-            <li><a href="https://open.alibabafoundation.com/aigongyi" target="_blank">阿里AI公益小蜜</a></li>  
+            <li class="group-title" style="color:#ffcccc;font-weight:bold;clear:both;">人工智能</li>  
+            <li><a href="https://open.alibabafoundation.com/aigongyi" target="_blank">阿里AI公益小蜜</a></li>
             <li><a href="https://chat.qwenlm.ai/" target="_blank">千问</a></li>
             <li><a href="https://tingwu.aliyun.com/home" target="_blank">通义听悟</a></li>
         </div>
- <br>
+ <br>
         <div class="link-group">
-            <li class="group-title" style="color:#ffcccc;font-weight:bold;clear:both;">科学上网</li>  
-            <li><a href="https://github.com/" target="_blank">Github</a></li>  
+            <li class="group-title" style="color:#ffcccc;font-weight:bold;clear:both;">科学上网</li>  
+            <li><a href="https://github.com/" target="_blank">Github</a></li>  
             <li><a href="https://47.83.207.177/public-Q/#/login" target="_blank">一元机场</a></li>
             <li><a href="https://guatizi.com" target="_blank">飞机场</a></li>
             <li><a href="https://github.com/clash-verge-rev/clash-verge-rev" target="_blank">clash-verge</a></li>
             <li> | </li>
             <li><a href="https://www.wondercv.com" target="_blank">超级简历</a></li>
-            <li><a href="https://www.tianxun.com" target="_blank">天巡机票比价</a></li>  
+            <li><a href="https://www.tianxun.com" target="_blank">天巡机票比价</a></li>  
             <li><a href="https://ocr.tianruo.net" target="_blank">天若Ocr</a></li>
             <li><a href="https://www.notion.com/zh-cn/templates/category" target="_blank">Notion市集</a></li>
         </div>
@@ -692,9 +658,9 @@
             <li class="group-title" style="color:#ffcccc;font-weight:bold;clear:both;">破解软件</li>
             <li><a href="https://www.cybermania.ws" target="_blank">CyberMania</a></li>
             <li><a href="https://ping0.cc/" target="_blank">节点检测</a></li>
-            <li><a href="https://helpx.adobe.com/camera-raw/kb/camera-raw-plug-in-installer.html" target="_blank">Adobe Camera Raw</a></li>  
+            <li><a href="https://helpx.adobe.com/camera-raw/kb/camera-raw-plug-in-installer.html" target="_blank">Adobe Camera Raw</a></li>  
             <li><a href="https://www.rjshe.com" target="_blank">软件社</a></li>
-            <li><a href="https://lxmusic.toside.cn" target="_blank">LX Music</a></li>  
+            <li><a href="https://lxmusic.toside.cn" target="_blank">LX Music</a></li>  
             <li><a href="https://next.itellyou.cn/" target="_blank">MSDN</a></li>
         </div>
 <br>
@@ -710,15 +676,15 @@
     <div class="footer-copyright">
         <div class="container">
             <p> 本站收录由践行整理的常用网站<br>
-            <a target="_self" rel="nofollow" href="javascript:;">鲁ICP备18009664号</a> <a href="javascript:;" target="_self">2018年</a> 
+            <a href="#" target="_self" rel="nofollow">鲁ICP备18009664号</a> <a href="#" target="_self">2018年</a> 
             </p>
-            <img id="light-flogo" class="flogo" src="style/images/logo1.png" alt="网站logo" title="我见君来，顿觉吾庐，溪山美哉!">   
+            <img id="light-flogo" class="flogo" src="style/images/logo1.png" alt="网站logo" title="我见君来，顿觉吾庐，溪山美哉!">   
             <img id="dark-flogo" class="flogo" src="style/images/logo2.png" alt="网站logo" title="正是江南好风景，落花时节又逢君!">
         </div>
     </div>
     
     <!--回顶--> 
-    <div id="backtop" class="fa fa-angle-up"></div>
+    <div id="backtop" class="fa fa-angle-up show"></div>
     <script src="style/js/main.js" type="text/javascript"></script> 
     <!--初始化Swiper--> 
     <script src="style/js/swiper.js" type="text/javascript"></script> 
@@ -759,38 +725,55 @@
             // 更新本地存储的主题偏好
             if (body.classList.contains('night')) {
                 localStorage.setItem('theme', 'night');
+                document.getElementById('light-logo').style.display = 'none';
+                document.getElementById('dark-logo').style.display = 'block';
+                document.getElementById('light-flogo').style.display = 'none';
+                document.getElementById('dark-flogo').style.display = 'block';
             } else {
                 localStorage.setItem('theme', 'light');
+                document.getElementById('light-logo').style.display = 'block';
+                document.getElementById('dark-logo').style.display = 'none';
+                document.getElementById('light-flogo').style.display = 'block';
+                document.getElementById('dark-flogo').style.display = 'none';
             }
         }
         
-        // 页面加载时检查主题偏好
+        // 页面加载时检查主题偏好并设置logo显示
         document.addEventListener('DOMContentLoaded', function() {
             const savedTheme = localStorage.getItem('theme');
             const body = document.body;
             
             if (savedTheme === 'night') {
                 body.classList.add('night');
+                document.getElementById('light-logo').style.display = 'none';
+                document.getElementById('dark-logo').style.display = 'block';
+                document.getElementById('light-flogo').style.display = 'none';
+                document.getElementById('dark-flogo').style.display = 'block';
             } else {
                 body.classList.remove('night');
+                document.getElementById('light-logo').style.display = 'block';
+                document.getElementById('dark-logo').style.display = 'none';
+                document.getElementById('light-flogo').style.display = 'block';
+                document.getElementById('dark-flogo').style.display = 'none';
             }
             
             // 搜索框切换功能
-            document.querySelectorAll('.primary-menus .selects li').forEach(li => {
-                li.addEventListener('click', function() {
+            const searchTabs = document.querySelectorAll('.primary-menus .selects li');
+            const searchForms = document.querySelectorAll('.search');
+            
+            searchTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
                     // 移除所有当前选中状态
-                    document.querySelectorAll('.primary-menus .selects li').forEach(el => {
-                        el.classList.remove('current');
-                    });
+                    searchTabs.forEach(t => t.classList.remove('current'));
                     // 添加当前选中状态
                     this.classList.add('current');
+                    
+                    // 隐藏所有搜索表单
+                    searchForms.forEach(form => form.classList.add('hidden'));
                     
                     // 显示对应的搜索框
                     const target = this.getAttribute('data-target');
                     if (target) {
-                        document.querySelectorAll('.search').forEach(form => {
-                            form.classList.add('hidden');
-                        });
                         document.getElementById(target).classList.remove('hidden');
                     }
                 });
