@@ -105,8 +105,7 @@
         <li data-target="search_3"><span>秘塔搜索</span></li>
         <li data-target="search_4"><span>Google</span></li>
         <li data-target="search_5"><span>豆瓣搜书</span></li>
-	<li data-target="search_6"><span>厦门图书馆</span></li>
-        <li data-target="search_7"><span>Translate</span></li>
+        <li data-target="search_6"><span>Translate</span></li>
     </ul>
     <div class="cont">
         <div class="left-cont">
@@ -140,14 +139,9 @@
                 <button type="submit" class="btn">豆瓣搜书</button>
             </form>
 
-		<!-- 图书馆搜索 -->
-	    <form class="search hidden" id="search_6" action="https://interweb.xmlib.net:8821/opac/search?searchWay=title200a&q=*&searchSource=reader&scWay=dim&marcformat=&sortWay=pubdate_sort&sortOrder=desc&startPubdate=&endPubdate=&rows=10&hasholding=1" method="get" target="_blank">
-            <input type="text" name="keyword" class="s" placeholder="有空去厦门市图书馆看看" autocomplete="off">
-            <button type="submit" class="btn">馆藏检索</button>
-            </form>
 		
             <!-- 谷歌翻译 -->
-            <form class="search hidden" id="search_7" action="https://translate.google.com/" method="get" target="_blank">
+            <form class="search hidden" id="search_6" action="https://translate.google.com/" method="get" target="_blank">
                 <input type="hidden" name="hl" value="zh-CN">
                 <input type="text" name="text" class="s" placeholder="翻译一下 读懂英文" autocomplete="off">
                 <button type="submit" class="btn">Translate一下</button>
