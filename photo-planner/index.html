@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>合影拍照站位规划工具</title>
+  <link rel="icon" href="../uploads/chatgpt.ico">
+  <link rel="stylesheet" href="styles.css" />
+  <!-- External libs (no bundler): File parsing + save + excel -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+</head>
+<body>
+  <header class="app-header">
+    <h1>合影拍照站位规划工具</h1>
+    <div class="steps">上传文件 → 设置参数 → 生成站位图 → 调整 / 导出</div>
+  </header>
+
+  <main class="app-main">
+    <section class="panel panel-upload">
+      <h2>1. 上传人员文件</h2>
+      <div class="upload-box">
+        <input type="file" id="fileInput" accept=".csv,.txt,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.xls,.xlsx" />
+        <button id="btnUseDemo" class="btn">使用示例数据</button>
+      </div>
+      <p class="hint">支持 Excel（.xls/.xlsx）、CSV、TXT；需包含「姓名」「身高」列，其余列将忽略。</p>
+      <div id="uploadMsg" class="msg"></div>
+    </section>
+
+    <section class="panel panel-settings">
+      <h2>2. 设置规则</h2>
+      <div class="settings-grid">
+        <div class="field">
+          <label>总排数</label>
+          <input type="number" id="rowsInput" min="1" value="3" />
+        </div>
+        <div class="field">
+          <label>每排人数（留空自动）</label>
+          <input type="text" id="colsInput" placeholder="如 10 或 10,12,12" />
+        </div>
+        <div class="field">
+          <label>领导席位数量（第1排预留，0-50）</label>
+          <input type="number" id="leaderCountInput" min="0" max="50" value="0" />
+        </div>
+        <div class="field">
+          <label>领导席位姓名（可选，逗号分隔，最多50名）</label>
+          <input type="text" id="leaderNamesInput" placeholder="如：张总,李总" />
+        </div>
+      </div>
+      <div class="actions">
+        <button id="btnGenerate" class="btn primary">生成站位图</button>
+        <button id="btnReset" class="btn">重置</button>
+      </div>
+      <div id="settingsMsg" class="msg"></div>
+    </section>
+
+    <section class="panel panel-canvas">
+      <h2>3. 站位图</h2>
+      <div class="canvas-toolbar">
+        <button id="btnZoomIn" class="btn">放大</button>
+        <button id="btnZoomOut" class="btn">缩小</button>
+        <button id="btnFit" class="btn">适配</button>
+        <div class="spacer"></div>
+        <button id="btnExportPNG" class="btn">导出PNG</button>
+        <button id="btnExportCSV" class="btn">导出CSV</button>
+        <button id="btnExportXLSX" class="btn">导出Excel</button>
+        <button id="btnPrint" class="btn">打印</button>
+        <button id="btnUndo" class="btn">撤销</button>
+        <button id="btnRedo" class="btn">重做</button>
+      </div>
+
+      <div id="canvasWrapper" class="canvas-wrapper">
+        <svg id="stage" xmlns="http://www.w3.org/2000/svg" tabindex="0" aria-label="站位图">
+          <defs>
+            <filter id="cardShadow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="#000" flood-opacity="0.2"/>
+            </filter>
+          </defs>
+          <g id="stageContent"></g>
+        </svg>
+      </div>
+      <div id="canvasMsg" class="msg"></div>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <small>提示：可滚轮缩放，拖动卡片进行微调，悬停显示身高。</small>
+  </footer>
+
+  <!-- Libs -->
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.min.js"></script>
+
+  <script src="app.js"></script>
+</body>
+</html>
